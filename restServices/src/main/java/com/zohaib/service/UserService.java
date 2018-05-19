@@ -44,7 +44,7 @@ public class UserService {
 	}
 
 	public void updateUser(final Mono<User> givenUserToUpdate) {
-		
+		/*
 		givenUserToUpdate.map(x -> {
 			
 			if(x == null)
@@ -54,7 +54,7 @@ public class UserService {
 			updateUser(x.getUserId(), x.getName(), x.getAge());
 			
 		});
-
+		*/
 	}
 
 	public void updateUser(final String userId, final String name, final int age) {
