@@ -27,25 +27,34 @@ public class ApiRouter {
 	}
 
 	private RouterFunction<?> buildGetRoutes() {
-		return route(
-					RequestPredicates.GET("/users/{id}").and(accept(MediaType.APPLICATION_JSON))
-					, userHandler::getUser);
+		return 
+				route(
+					RequestPredicates.GET("/users/{id}").and(accept(MediaType.APPLICATION_JSON)),
+						this.userHandler::getUser
+				)
+				
+	    .and( 
+	    			route(
+					RequestPredicates.GET("/users/{id}").and(accept(MediaType.APPLICATION_JSON)),
+						this.userHandler::getUser
+				)
+	    	);
 	}
 
 	private RouterFunction<?> buildPostRoutes() {
 		return nest(accept(MediaType.APPLICATION_JSON),
-				route(RequestPredicates.POST("/users/{id}"), userHandler::updateUser));
+				route(RequestPredicates.POST("/users/{id}"), this.userHandler::updateUser));
 	}
 
 	private RouterFunction<?> buildDeleteRoutes() {
 		return nest(accept(MediaType.APPLICATION_JSON),
-				route(RequestPredicates.DELETE("/users/{id}"), userHandler::deleteUser));
+				route(RequestPredicates.DELETE("/users/{id}"), this.userHandler::deleteUser));
 
 	}
 
 	private RouterFunction<?> buildPutRoutes() {
 		return nest(accept(MediaType.APPLICATION_JSON),
-				route(RequestPredicates.PUT("/users"), userHandler::createUser));
+				route(RequestPredicates.PUT("/users"), this.userHandler::createUser));
 
 	}
 }
