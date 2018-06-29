@@ -32,18 +32,14 @@ public class ApiRouter {
 					RequestPredicates.GET("/users/{id}").and(accept(MediaType.APPLICATION_JSON)),
 						this.userHandler::getUser
 				)
-				
-	    .and( 
-	    			route(
-					RequestPredicates.GET("/users/{id}").and(accept(MediaType.APPLICATION_JSON)),
-						this.userHandler::getUser
-				)
-	    	);
+		;
 	}
 
 	private RouterFunction<?> buildPostRoutes() {
 		return nest(accept(MediaType.APPLICATION_JSON),
-				route(RequestPredicates.POST("/users/{id}"), this.userHandler::updateUser));
+					route(RequestPredicates.POST("/users/{id}"), this.userHandler::updateUser))
+				.andNest(accept(MediaType.MULTIPART_FORM_DATA),
+						route(RequestPredicates.POST("/upload/doc"), this.userHandler::uploadDocument));
 	}
 
 	private RouterFunction<?> buildDeleteRoutes() {

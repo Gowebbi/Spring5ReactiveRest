@@ -69,4 +69,9 @@ public class UserService {
 		});
 
 	}
+	
+	public void uploadFile()
+	{
+		
+	}
 }

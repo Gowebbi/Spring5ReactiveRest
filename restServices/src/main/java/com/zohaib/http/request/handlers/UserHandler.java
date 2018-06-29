@@ -2,9 +2,15 @@ package com.zohaib.http.request.handlers;
 
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
+import java.lang.System.Logger;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
+import org.springframework.http.codec.multipart.Part;
+import org.springframework.stereotype.Component;import org.springframework.web.reactive.function.BodyExtractor;
+import org.springframework.web.reactive.function.BodyExtractors;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -19,6 +25,7 @@ public class UserHandler {
 
 	@Autowired
 	private UserService userService;
+	 
 
 	private Mono<ServerResponse> buildUserAsServerResponse(final Mono<User> monoUser) {
 		return monoUser.flatMap(x -> {
@@ -53,4 +60,34 @@ public class UserHandler {
 			return ok().contentType(MediaType.APPLICATION_JSON).body(BodyInserters.empty());
 		});
 	}
+	
+	public Mono<ServerResponse> uploadDocument(final ServerRequest request) {
+		System.out.println(request.headers().contentType().orElse(MediaType.TEXT_PLAIN));
+       
+		request
+			.body(BodyExtractors.toMultipartData())
+				.flatMap(x -> {
+					/*
+					Map<String, Part> singleValueMap = x.toSingleValueMap();
+					try 
+					{
+						Part part = singleValueMap.get("documentForUpload");
+						
+					}
+					catch(Exception e)
+					{
+						return Mono.error(e);
+					}
+					*/
+					return ok().contentType(MediaType.APPLICATION_JSON).body(BodyInserters.empty()); 
+				});
+				
+		
+		
+		
+		return request.bodyToMono(User.class).flatMap( x-> {
+			return ok().contentType(MediaType.APPLICATION_JSON).body(BodyInserters.empty());
+		});
+	}
+	
 }
